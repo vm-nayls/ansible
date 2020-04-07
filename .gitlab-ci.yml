@@ -1,0 +1,81 @@
+stages:
+  - "Build Ansible v2.9 python3.7"
+  - "Build Ansible v2.9 python3.8"
+
+
+.template:build:
+  before_script:
+    - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - apk --update --no-cache add make
+  script:
+    - DOCKER_BUILDKIT=1 ANSIBLE_VERSION=${ANSIBLE_VERSION} PYTHON_VERSION=${PYTHON_VERSION} OC_VERSION=${OC_VERSION} make pull
+    - DOCKER_BUILDKIT=1 ANSIBLE_VERSION=${ANSIBLE_VERSION} PYTHON_VERSION=${PYTHON_VERSION} OC_VERSION=${OC_VERSION} make build
+    - DOCKER_BUILDKIT=1 ANSIBLE_VERSION=${ANSIBLE_VERSION} PYTHON_VERSION=${PYTHON_VERSION} OC_VERSION=${OC_VERSION} make push
+  allow_failure: true
+  when: always
+  tags:
+    - docker
+
+
+# Build Ansible 2.9
+# Python 3.7
+# alpine3.10, alpine3.11, slim-stretch, slim-buster
+2.9-python3.7-alpine3.10:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.7"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.7"
+    OC_VERSION: "alpine3.10"
+
+2.9-python3.7-alpine3.11:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.7"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.7"
+    OC_VERSION: "alpine3.11"
+
+2.9-python3.7-slim-stretch:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.7"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.7"
+    OC_VERSION: "slim-stretch"
+
+2.9-python3.7-slim-buster:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.7"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.7"
+    OC_VERSION: "slim-buster"
+
+
+# Build Ansible 2.9
+# Python 3.8
+# alpine3.10, alpine3.11, slim-buster
+2.9-python3.8-alpine3.10:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.8"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.8"
+    OC_VERSION: "alpine3.10"
+
+2.9-python3.8-alpine3.11:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.8"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.8"
+    OC_VERSION: "alpine3.11"
+
+2.9-python3.8-slim-buster:
+  extends: .template:build
+  stage: "Build Ansible v2.9 python3.8"
+  variables:
+    ANSIBLE_VERSION: "2.9"
+    PYTHON_VERSION: "python3.8"
+    OC_VERSION: "slim-buster"
