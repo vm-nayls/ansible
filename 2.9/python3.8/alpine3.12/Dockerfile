@@ -1,4 +1,4 @@
-FROM python:3.7-alpine3.10
+FROM python:3.8-alpine3.12
 
 WORKDIR /ansible
 RUN apk --update --no-cache add \
@@ -13,7 +13,7 @@ RUN apk --update --no-cache add \
         python3-dev \
         build-base \
     \
-    && python3.7 -m pip install "ansible>=2.9,<3.0" jmespath prettytable \
+    && python3.8 -m pip install "ansible>=2.9,<2.10" jmespath prettytable \
     \
     && apk del .build-deps \
     && rm -rf /tmp/* \

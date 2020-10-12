@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-buster
 
 WORKDIR /ansible
 RUN apt-get update && apt-get upgrade -y \
@@ -14,7 +14,7 @@ RUN apt-get update && apt-get upgrade -y \
         libffi-dev \
         python3-dev \
     \
-    && python3.8 -m pip install "ansible>=2.9,<2.10" jmespath prettytable \
+    && python3.9 -m pip install "ansible>=2.9,<2.10" jmespath prettytable \
     \
     && apt-get remove -y \
         libssl-dev \
